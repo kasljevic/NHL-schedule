@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Schedule</title>
+    <title>NHL Schedule</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Game Schedule</h1>
-    
-    <!-- Season Data Container -->
-    <div id="season-container">
-        <h2>Loading season information...</h2>
-    </div>
-    
-    <!-- Schedule Container -->
-    <div id="schedule-container">
-        <h2>Loading games...</h2>
-    </div>
-    
+    <header>
+        <h1>NHL Schedule</h1>
+    </header>
+    <main>
+        <section id="schedule-container">
+            <h2>Upcoming Games</h2>
+            <div id="loading-schedule" class="loading">Loading schedule...</div>
+        </section>
+        <section id="season-container">
+            <h2>Historical Seasons</h2>
+            <div id="loading-seasons" class="loading">Loading seasons...</div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 NHL Schedule Viewer</p>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
