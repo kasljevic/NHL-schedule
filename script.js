@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const seasonContainer = document.getElementById("season-container");
 
     // Fetch the historical season information
-    fetch('https://raw.githubusercontent.com/your-username/your-repo/main/data_season.json')  // Change this URL to the correct path for your JSON
+    fetch('https://raw.githubusercontent.com/kasljevic/NHL-schedule/main/data_season.json')  // Change this URL to the correct path for your JSON
         .then(response => response.json())
         .then(seasonData => {
             // Display historical seasons data
