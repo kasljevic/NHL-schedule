@@ -1,100 +1,97 @@
+:root {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --accent-color: #4CAF50;
+    --secondary-bg: #2c2c2c;
+    --hover-color: #45a049;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #1e1e1e;
-    color: #e0e0e0;
-    margin: 20px;
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: var(--secondary-bg);
+    padding: 1rem;
+    text-align: center;
 }
 
 h1 {
-    color: #ffffff;
-    text-align: center;
+    margin: 0;
     font-size: 2.5rem;
-    margin-bottom: 20px;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+section {
+    margin-bottom: 2rem;
 }
 
 h2 {
-    color: #cccccc;
-    font-size: 1.5rem;
-    margin-top: 40px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #333;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
 }
 
-.game {
-    background-color: #2b2b2b;
-    padding: 20px;
-    margin: 15px 0;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-left: 5px solid #009688;
+.game, .season-info {
+    background-color: var(--secondary-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
 }
 
 .game h3 {
-    font-size: 1.3rem;
-    color: #ffffff;
+    margin-top: 0;
+    color: var(--accent-color);
 }
 
-.game p {
-    color: #b0b0b0;
-    margin: 5px 0;
-}
-
-.game a {
-    color: #80cbc4;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.game a:hover {
-    text-decoration: underline;
-}
-
-p strong {
-    color: #ffffff;
-}
-
-#schedule-container {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.schedule-header p {
-    font-size: 1rem;
-    color: #b0b0b0;
-}
-
-.schedule-header {
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: #2b2b2b;
-    border: 1px solid #333;
-    border-radius: 8px;
+.loading {
     text-align: center;
+    font-style: italic;
+    color: #888;
 }
 
-.schedule-header strong {
-    color: #80cbc4;
-    font-size: 1.1rem;
-}
-#season-container {
-    margin-top: 30px;
-    background-color: #2b2b2b; /* Adjust for dark theme */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-.season-info {
-    padding: 15px;
-    margin: 10px 0;
-    border-bottom: 1px solid #444;
+a:hover {
+    color: var(--hover-color);
 }
 
-.season-info p {
-    margin: 5px 0;
-    color: #cccccc;
+.ticket-link, .game-center-link {
+    display: inline-block;
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.ticket-link:hover, .game-center-link:hover {
+    background-color: var(--hover-color);
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--secondary-bg);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 1rem;
+    }
 }
