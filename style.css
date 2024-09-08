@@ -163,3 +163,53 @@ footer {
         padding: 1rem;
     }
 }
+
+.leader-card {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.leader-rank {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-right: 0.5rem;
+    min-width: 1.5em;
+    text-align: center;
+}
+
+.player-headshot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.leader-info {
+    flex-grow: 1;
+}
+
+.leader-info h4 {
+    margin: 0;
+    font-size: 1em;
+}
+
+.leader-info p {
+    margin: 0;
+    font-size: 0.8em;
+    color: #ccc;
+}
+
+.leader-value {
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+#leaders-container h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.2em;
+    color: var(--accent-color);
+}
