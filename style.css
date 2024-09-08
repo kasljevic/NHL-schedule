@@ -80,3 +80,21 @@ p strong {
     color: #80cbc4;
     font-size: 1.1rem;
 }
+#season-container {
+    margin-top: 30px;
+    background-color: #2b2b2b; /* Adjust for dark theme */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.season-info {
+    padding: 15px;
+    margin: 10px 0;
+    border-bottom: 1px solid #444;
+}
+
+.season-info p {
+    margin: 5px 0;
+    color: #cccccc;
+}
