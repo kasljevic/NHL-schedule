@@ -73,19 +73,52 @@ function displaySchedule(data) {
 function displayHistoricalSeasons(seasonData) {
     const container = document.getElementById("season-container");
     container.innerHTML = '<h2>Historical NHL Seasons</h2>';
-    
-    seasonData.data.forEach(season => {
-        const seasonHTML = `
-            <div class="season-info">
-                <h3>${season.formattedSeasonId}</h3>
-                <p><strong>Start Date:</strong> ${formatDate(season.startDate)}</p>
-                <p><strong>End Date:</strong> ${formatDate(season.endDate)}</p>
-                <p><strong>Regular Season Games:</strong> ${season.totalRegularSeasonGames}</p>
-                <p><strong>Playoff Games:</strong> ${season.totalPlayoffGames}</p>
+
+    // Group seasons by decade
+    const groupedSeasons = groupSeasonsByDecade(seasonData.data);
+
+    // Create a table for each decade
+    Object.entries(groupedSeasons).forEach(([decade, seasons]) => {
+        const decadeHTML = `
+            <h3>${decade}s</h3>
+            <div class="table-container">
+                <table class="seasons-table">
+                    <thead>
+                        <tr>
+                            <th>Season</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Regular Games</th>
+                            <th>Playoff Games</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${seasons.map(season => `
+                            <tr>
+                                <td>${season.formattedSeasonId}</td>
+                                <td>${formatDate(season.startDate)}</td>
+                                <td>${formatDate(season.endDate)}</td>
+                                <td>${season.totalRegularSeasonGames}</td>
+                                <td>${season.totalPlayoffGames}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
             </div>
         `;
-        container.innerHTML += seasonHTML;
+        container.innerHTML += decadeHTML;
     });
+}
+
+function groupSeasonsByDecade(seasons) {
+    return seasons.reduce((groups, season) => {
+        const decade = Math.floor(parseInt(season.formattedSeasonId.split('-')[0]) / 10) * 10;
+        if (!groups[decade]) {
+            groups[decade] = [];
+        }
+        groups[decade].push(season);
+        return groups;
+    }, {});
 }
 
 function displayStatsLeaders(leadersData) {
