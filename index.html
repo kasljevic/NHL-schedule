@@ -9,17 +9,22 @@
 </head>
 <body>
     <header>
+        <div class="logo-container">
+            <img src="nhl-logo.svg" alt="NHL Logo" class="nhl-logo">
+        </div>
         <h1>NHL Schedule</h1>
     </header>
     <main>
-        <section id="schedule-container">
-            <h2>Upcoming Games</h2>
-            <div id="loading-schedule" class="loading">Loading schedule...</div>
-        </section>
-        <section id="season-container">
-            <h2>Historical Seasons</h2>
-            <div id="loading-seasons" class="loading">Loading seasons...</div>
-        </section>
+        <div class="container">
+            <section id="schedule-container" class="content-section">
+                <h2>Upcoming Games</h2>
+                <div id="loading-schedule" class="loading">Loading schedule...</div>
+            </section>
+            <aside id="season-container" class="sidebar-section">
+                <h2>Historical Seasons</h2>
+                <div id="loading-seasons" class="loading">Loading seasons...</div>
+            </aside>
+        </div>
     </main>
     <footer>
         <p>&copy; 2024 NHL Schedule Viewer</p>
