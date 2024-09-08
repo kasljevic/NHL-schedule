@@ -92,20 +92,31 @@ function displayStatsLeaders(leadersData) {
     const container = document.getElementById("leaders-container");
     container.innerHTML = '<h2>Stats Leaders</h2>';
 
-    // Display top 3 goal scorers
-    const topScorers = leadersData.goals.slice(0, 3);
-    topScorers.forEach(player => {
-        const leaderHTML = `
-            <div class="leader-card">
-                <img src="${player.headshot}" alt="${player.firstName.default} ${player.lastName.default}" class="player-headshot">
-                <div class="leader-info">
-                    <h3>${player.firstName.default} ${player.lastName.default}</h3>
-                    <p>${player.teamName.default} - ${player.position}</p>
-                </div>
-                <div class="leader-value">${player.value} goals</div>
-            </div>
-        `;
-        container.innerHTML += leaderHTML;
+    const metrics = [
+        { key: 'goals', label: 'Goals' },
+        { key: 'assists', label: 'Assists' },
+        { key: 'points', label: 'Points' }
+    ];
+
+    metrics.forEach(metric => {
+        if (leadersData[metric.key]) {
+            container.innerHTML += `<h3>Top 5 ${metric.label}</h3>`;
+            const topPlayers = leadersData[metric.key].slice(0, 5);
+            topPlayers.forEach((player, index) => {
+                const leaderHTML = `
+                    <div class="leader-card">
+                        <div class="leader-rank">${index + 1}</div>
+                        <img src="${player.headshot}" alt="${player.firstName.default} ${player.lastName.default}" class="player-headshot">
+                        <div class="leader-info">
+                            <h4>${player.firstName.default} ${player.lastName.default}</h4>
+                            <p>${player.teamName.default} - ${player.position}</p>
+                        </div>
+                        <div class="leader-value">${player.value} ${metric.label.toLowerCase()}</div>
+                    </div>
+                `;
+                container.innerHTML += leaderHTML;
+            });
+        }
     });
 }
 
