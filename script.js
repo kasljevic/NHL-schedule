@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const scheduleContainer = document.getElementById("schedule-container");
     const seasonContainer = document.getElementById("season-container");
+    const leadersContainer = document.getElementById("leaders-container");
 
     // Fetch the schedule data
     fetch('https://raw.githubusercontent.com/kasljevic/NHL-schedule/main/data.json')
@@ -17,6 +18,14 @@ document.addEventListener("DOMContentLoaded", function() {
             displayHistoricalSeasons(seasonData);
         })
         .catch(handleError(seasonContainer, "Failed to load season information."));
+
+    // Fetch the stats leaders
+    fetch('https://raw.githubusercontent.com/kasljevic/NHL-schedule/main/data_leaders.json')
+        .then(response => response.json())
+        .then(leadersData => {
+            displayStatsLeaders(leadersData);
+        })
+        .catch(handleError(leadersContainer, "Failed to load stats leaders."));
 });
 
 function displaySchedule(data) {
@@ -76,6 +85,27 @@ function displayHistoricalSeasons(seasonData) {
             </div>
         `;
         container.innerHTML += seasonHTML;
+    });
+}
+
+function displayStatsLeaders(leadersData) {
+    const container = document.getElementById("leaders-container");
+    container.innerHTML = '<h2>Stats Leaders</h2>';
+
+    // Display top 3 goal scorers
+    const topScorers = leadersData.goals.slice(0, 3);
+    topScorers.forEach(player => {
+        const leaderHTML = `
+            <div class="leader-card">
+                <img src="${player.headshot}" alt="${player.firstName.default} ${player.lastName.default}" class="player-headshot">
+                <div class="leader-info">
+                    <h3>${player.firstName.default} ${player.lastName.default}</h3>
+                    <p>${player.teamName.default} - ${player.position}</p>
+                </div>
+                <div class="leader-value">${player.value} goals</div>
+            </div>
+        `;
+        container.innerHTML += leaderHTML;
     });
 }
 
