@@ -49,16 +49,41 @@ main {
     flex-direction: column;
 }
 
-@media (min-width: 768px) {
-    .container {
-        flex-direction: row;
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.seasons-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.seasons-table th,
+.seasons-table td {
+    padding: 0.5rem;
+    text-align: left;
+    border: 1px solid var(--secondary-bg);
+}
+
+.seasons-table th {
+    background-color: var(--secondary-bg);
+    font-weight: bold;
+}
+
+.seasons-table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 768px) {
+    .seasons-table {
+        font-size: 0.8em;
     }
 
-    .content-section {
-        flex: 2;
-        margin-right: 2rem;
-    }
-
+    .seasons-table th,
+    .seasons-table td {
+        padding: 0.3rem;
     .sidebar-section {
         flex: 1;
     }
@@ -212,4 +237,42 @@ footer {
     margin-bottom: 0.5rem;
     font-size: 1.2em;
     color: var(--accent-color);
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.seasons-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.seasons-table th,
+.seasons-table td {
+    padding: 0.5rem;
+    text-align: left;
+    border: 1px solid var(--secondary-bg);
+}
+
+.seasons-table th {
+    background-color: var(--secondary-bg);
+    font-weight: bold;
+}
+
+.seasons-table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 768px) {
+    .seasons-table {
+        font-size: 0.8em;
+    }
+
+    .seasons-table th,
+    .seasons-table td {
+        padding: 0.3rem;
+    }
 }
