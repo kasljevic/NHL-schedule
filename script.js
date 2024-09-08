@@ -40,8 +40,13 @@ function displaySchedule(data) {
         week.games.forEach(game => {
             const gameHTML = `
                 <div class="game">
-                    <h4>${game.awayTeam.placeName.default} (${game.awayTeam.abbrev}) 
-                    vs ${game.homeTeam.placeName.default} (${game.homeTeam.abbrev})</h4>
+                    <h4>
+                        <img src="${game.awayTeam.logo}" alt="${game.awayTeam.abbrev} logo" class="team-logo">
+                        ${game.awayTeam.placeName.default} (${game.awayTeam.abbrev}) 
+                        vs 
+                        <img src="${game.homeTeam.logo}" alt="${game.homeTeam.abbrev} logo" class="team-logo">
+                        ${game.homeTeam.placeName.default} (${game.homeTeam.abbrev})
+                    </h4>
                     <p><strong>Venue:</strong> ${game.venue.default}</p>
                     <p><strong>Start Time:</strong> ${formatTime(game.startTimeUTC)}</p>
                     ${game.specialEvent ? `<p><strong>Special Event:</strong> ${game.specialEvent.default}</p>` : ''}
