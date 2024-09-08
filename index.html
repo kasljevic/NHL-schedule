@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NHL Schedule</title>
+    <title>NHL Schedule and Stats</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
@@ -12,7 +12,7 @@
         <div class="logo-container">
             <img src="nhl-logo.svg" alt="NHL Logo" class="nhl-logo">
         </div>
-        <h1>NHL Schedule</h1>
+        <h1>NHL Schedule and Stats</h1>
     </header>
     <main>
         <div class="container">
@@ -20,14 +20,20 @@
                 <h2>Upcoming Games</h2>
                 <div id="loading-schedule" class="loading">Loading schedule...</div>
             </section>
-            <aside id="season-container" class="sidebar-section">
-                <h2>Historical Seasons</h2>
-                <div id="loading-seasons" class="loading">Loading seasons...</div>
+            <aside class="sidebar-section">
+                <section id="leaders-container">
+                    <h2>Stats Leaders</h2>
+                    <div id="loading-leaders" class="loading">Loading stats leaders...</div>
+                </section>
+                <section id="season-container">
+                    <h2>Historical Seasons</h2>
+                    <div id="loading-seasons" class="loading">Loading seasons...</div>
+                </section>
             </aside>
         </div>
     </main>
     <footer>
-        <p>&copy; 2024 NHL Schedule Viewer</p>
+        <p>&copy; 2024 NHL Schedule and Stats Viewer</p>
     </footer>
     <script src="script.js"></script>
 </body>
