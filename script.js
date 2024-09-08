@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
     const container = document.getElementById("schedule-container");
 
-    // Fetch the JSON data
-    fetch('data.json')
+    // Correct raw GitHub URL for JSON
+    fetch('https://raw.githubusercontent.com/kasljevic/NHL-schedule/main/data.json')
         .then(response => response.json())
         .then(data => {
             // Clear initial message
