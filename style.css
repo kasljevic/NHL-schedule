@@ -1,24 +1,82 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
     margin: 20px;
 }
 
-h1, h2 {
-    color: #333;
+h1 {
+    color: #ffffff;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #cccccc;
+    font-size: 1.5rem;
+    margin-top: 40px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #333;
 }
 
 .game {
-    background-color: #f9f9f9;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
+    background-color: #2b2b2b;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-left: 5px solid #009688;
 }
 
-a {
-    color: blue;
+.game h3 {
+    font-size: 1.3rem;
+    color: #ffffff;
+}
+
+.game p {
+    color: #b0b0b0;
+    margin: 5px 0;
+}
+
+.game a {
+    color: #80cbc4;
     text-decoration: none;
+    font-weight: bold;
 }
 
-a:hover {
+.game a:hover {
     text-decoration: underline;
+}
+
+p strong {
+    color: #ffffff;
+}
+
+#schedule-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.schedule-header p {
+    font-size: 1rem;
+    color: #b0b0b0;
+}
+
+.schedule-header {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #2b2b2b;
+    border: 1px solid #333;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.schedule-header strong {
+    color: #80cbc4;
+    font-size: 1.1rem;
 }
