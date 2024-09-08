@@ -1,10 +1,9 @@
-// Function to fetch NHL schedule data
+// Function to fetch NHL schedule data for the upcoming week
 async function fetchNHLSchedule() {
     try {
-        // Replace this URL with the actual NHL API endpoint or your data file URL
-        const response = await fetch('https://statsapi.web.nhl.com/api/v1/schedule?startDate=2024-09-08&endDate=2024-12-22');
+        const response = await fetch('https://api-web.nhle.com/v1/schedule/now');
         const data = await response.json();
-        return data.dates;
+        return data.gameWeek;
     } catch (error) {
         console.error('Error fetching NHL schedule:', error);
     }
@@ -16,10 +15,10 @@ function displaySchedule(scheduleData) {
     let html = '<ul>';
 
     scheduleData.forEach(date => {
-        html += `<li><strong>${date.date}</strong>`;
+        html += `<li><strong>${new Date(date.date).toLocaleDateString()}</strong>`;
         html += '<ul>';
         date.games.forEach(game => {
-            html += `<li>${game.teams.away.team.name} @ ${game.teams.home.team.name}</li>`;
+            html += `<li>${game.awayTeam.abbrev} @ ${game.homeTeam.abbrev} - ${game.startTimeUTC}</li>`;
         });
         html += '</ul></li>';
     });
