@@ -1,70 +1,90 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const container = document.getElementById("schedule-container");
+    const scheduleContainer = document.getElementById("schedule-container");
     const seasonContainer = document.getElementById("season-container");
-
-    // Fetch the historical season information
-    fetch('https://raw.githubusercontent.com/kasljevic/NHL-schedule/main/data_season.json')  // Change this URL to the correct path for your JSON
-        .then(response => response.json())
-        .then(seasonData => {
-            // Display historical seasons data
-            let seasonHTML = '<h2>Historical NHL Seasons</h2>';
-            seasonData.data.forEach(season => {
-                seasonHTML += `
-                    <div class="season-info">
-                        <p><strong>Season:</strong> ${season.formattedSeasonId}</p>
-                        <p><strong>Start Date:</strong> ${new Date(season.startDate).toLocaleDateString()}</p>
-                        <p><strong>End Date:</strong> ${new Date(season.endDate).toLocaleDateString()}</p>
-                        <p><strong>Total Regular Season Games:</strong> ${season.totalRegularSeasonGames}</p>
-                        <p><strong>Total Playoff Games:</strong> ${season.totalPlayoffGames}</p>
-                    </div>
-                `;
-            });
-            seasonContainer.innerHTML = seasonHTML;
-        })
-        .catch(error => {
-            seasonContainer.innerHTML = '<p>Failed to load season information.</p>';
-            console.error("Error fetching season data:", error);
-        });
 
     // Fetch the schedule data
     fetch('https://raw.githubusercontent.com/kasljevic/NHL-schedule/main/data.json')
         .then(response => response.json())
         .then(data => {
-            // Clear initial message
-            container.innerHTML = '';
-
-            // Display next and previous start dates
-            const datesHTML = `
-                <p><strong>Next Start Date:</strong> ${data.nextStartDate}</p>
-                <p><strong>Previous Start Date:</strong> ${data.previousStartDate}</p>
-            `;
-            container.innerHTML += datesHTML;
-
-            // Loop through each game week
-            data.gameWeek.forEach(week => {
-                const weekHTML = `
-                    <h2>${week.dayAbbrev} (${week.date}) - ${week.numberOfGames} Games</h2>
-                `;
-                container.innerHTML += weekHTML;
-
-                // Loop through each game
-                week.games.forEach(game => {
-                    const gameHTML = `
-                        <div class="game">
-                            <h3>${game.awayTeam.placeName.default} (${game.awayTeam.abbrev}) 
-                            vs ${game.homeTeam.placeName.default} (${game.homeTeam.abbrev})</h3>
-                            <p><strong>Venue:</strong> ${game.venue.default}</p>
-                            <p><strong>Start Time:</strong> ${new Date(game.startTimeUTC).toLocaleTimeString()}</p>
-                            <p><strong>Special Event:</strong> ${game.specialEvent ? game.specialEvent.default : 'None'}</p>
-                            <a href="${game.ticketsLink}" target="_blank">Get Tickets</a>
-                        </div>
-                    `;
-                    container.innerHTML += gameHTML;
-                });
-            });
+            displaySchedule(data);
         })
-        .catch(error => {
-            container.innerHTML = '<p>Failed to load game schedule.</p>';
-            console.error("Error fetching data:", error);
-        });
+        .catch(handleError(scheduleContainer, "Failed to load game schedule."));
+
+    // Fetch the historical season information
+    fetch('https://raw.githubusercontent.com/kasljevic/NHL-schedule/main/data_season.json')
+        .then(response => response.json())
+        .then(seasonData => {
+            displayHistoricalSeasons(seasonData);
+        })
+        .catch(handleError(seasonContainer, "Failed to load season information."));
 });
+
+function displaySchedule(data) {
+    const container = document.getElementById("schedule-container");
+    container.innerHTML = '<h2>Upcoming Games</h2>';
+    
+    const datesHTML = `
+        <div class="date-info">
+            <p><strong>Next Start Date:</strong> ${formatDate(data.nextStartDate)}</p>
+            <p><strong>Previous Start Date:</strong> ${formatDate(data.previousStartDate)}</p>
+        </div>
+    `;
+    container.innerHTML += datesHTML;
+
+    data.gameWeek.forEach(week => {
+        const weekHTML = `
+            <h3>${week.dayAbbrev} (${formatDate(week.date)}) - ${week.numberOfGames} Games</h3>
+        `;
+        container.innerHTML += weekHTML;
+
+        week.games.forEach(game => {
+            const gameHTML = `
+                <div class="game">
+                    <h4>${game.awayTeam.placeName.default} (${game.awayTeam.abbrev}) 
+                    vs ${game.homeTeam.placeName.default} (${game.homeTeam.abbrev})</h4>
+                    <p><strong>Venue:</strong> ${game.venue.default}</p>
+                    <p><strong>Start Time:</strong> ${formatTime(game.startTimeUTC)}</p>
+                    ${game.specialEvent ? `<p><strong>Special Event:</strong> ${game.specialEvent.default}</p>` : ''}
+                    <div class="game-links">
+                        <a href="${game.ticketsLink}" target="_blank" class="ticket-link">Get Tickets</a>
+                        ${game.gameCenterLink ? `<a href="${game.gameCenterLink}" target="_blank" class="game-center-link">Game Center</a>` : ''}
+                    </div>
+                </div>
+            `;
+            container.innerHTML += gameHTML;
+        });
+    });
+}
+
+function displayHistoricalSeasons(seasonData) {
+    const container = document.getElementById("season-container");
+    container.innerHTML = '<h2>Historical NHL Seasons</h2>';
+    
+    seasonData.data.forEach(season => {
+        const seasonHTML = `
+            <div class="season-info">
+                <h3>${season.formattedSeasonId}</h3>
+                <p><strong>Start Date:</strong> ${formatDate(season.startDate)}</p>
+                <p><strong>End Date:</strong> ${formatDate(season.endDate)}</p>
+                <p><strong>Regular Season Games:</strong> ${season.totalRegularSeasonGames}</p>
+                <p><strong>Playoff Games:</strong> ${season.totalPlayoffGames}</p>
+            </div>
+        `;
+        container.innerHTML += seasonHTML;
+    });
+}
+
+function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function formatTime(timeString) {
+    return new Date(timeString).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+}
+
+function handleError(container, message) {
+    return error => {
+        container.innerHTML = `<p class="error">${message}</p>`;
+        console.error("Error:", error);
+    };
+}
