@@ -1,7 +1,32 @@
 document.addEventListener("DOMContentLoaded", function() {
     const container = document.getElementById("schedule-container");
+    const seasonContainer = document.getElementById("season-container");
 
-    // Correct raw GitHub URL for JSON
+    // Fetch the historical season information
+    fetch('https://path/to/your/data_season.json')  // Change this URL to the correct path for your JSON
+        .then(response => response.json())
+        .then(seasonData => {
+            // Display historical seasons data
+            let seasonHTML = '<h2>Historical NHL Seasons</h2>';
+            seasonData.data.forEach(season => {
+                seasonHTML += `
+                    <div class="season-info">
+                        <p><strong>Season:</strong> ${season.formattedSeasonId}</p>
+                        <p><strong>Start Date:</strong> ${new Date(season.startDate).toLocaleDateString()}</p>
+                        <p><strong>End Date:</strong> ${new Date(season.endDate).toLocaleDateString()}</p>
+                        <p><strong>Total Regular Season Games:</strong> ${season.totalRegularSeasonGames}</p>
+                        <p><strong>Total Playoff Games:</strong> ${season.totalPlayoffGames}</p>
+                    </div>
+                `;
+            });
+            seasonContainer.innerHTML = seasonHTML;
+        })
+        .catch(error => {
+            seasonContainer.innerHTML = '<p>Failed to load season information.</p>';
+            console.error("Error fetching season data:", error);
+        });
+
+    // Fetch the schedule data
     fetch('https://raw.githubusercontent.com/kasljevic/NHL-schedule/main/data.json')
         .then(response => response.json())
         .then(data => {
