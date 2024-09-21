@@ -11,25 +11,26 @@
     <header>
         <div class="logo-container">
             <img src="nhl-logo.svg" alt="NHL Logo" class="nhl-logo">
+            <h1>NHL Schedule and Stats</h1>
         </div>
-        <h1>NHL Schedule and Stats</h1>
+        <a href="https://www.nhl.com" target="_blank" class="nhl-link">NHL Official Site</a>
     </header>
+    <nav>
+        <ul class="nav-menu">
+            <li><a href="#games" class="active">Games</a></li>
+            <li><a href="#standings">Standings</a></li>
+        </ul>
+    </nav>
     <main>
         <div class="container">
             <section id="schedule-container" class="content-section">
                 <h2>Upcoming Games</h2>
                 <div id="loading-schedule" class="loading">Loading schedule...</div>
             </section>
-            <aside class="sidebar-section">
-                <section id="leaders-container">
-                    <h2>Stats Leaders</h2>
-                    <div id="loading-leaders" class="loading">Loading stats leaders...</div>
-                </section>
-                <section id="season-container">
-                    <h2>Historical Seasons</h2>
-                    <div id="loading-seasons" class="loading">Loading seasons...</div>
-                </section>
-            </aside>
+            <section id="standings-container" class="content-section" style="display: none;">
+                <h2>Standings</h2>
+                <div id="loading-standings" class="loading">Loading standings...</div>
+            </section>
         </div>
     </main>
     <footer>
