@@ -1,7 +1,8 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const scheduleContainer = document.getElementById("schedule-container");
-    const seasonContainer = document.getElementById("season-container");
+    const standingsContainer = document.getElementById("standings-container");
     const leadersContainer = document.getElementById("leaders-container");
+    const navLinks = document.querySelectorAll(".nav-menu a");
 
     // Fetch the schedule data
     fetch('https://raw.githubusercontent.com/kasljevic/NHL-schedule/main/data.json')
@@ -11,34 +12,40 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .catch(handleError(scheduleContainer, "Failed to load game schedule."));
 
-    // Fetch the historical season information
-    fetch('https://raw.githubusercontent.com/kasljevic/NHL-schedule/main/data_season.json')
+    // Fetch the standings data
+    fetch('https://raw.githubusercontent.com/kasljevic/NHL-schedule/main/data_standings.json')
         .then(response => response.json())
-        .then(seasonData => {
-            displayHistoricalSeasons(seasonData);
+        .then(standingsData => {
+            displayStandings(standingsData);
         })
-        .catch(handleError(seasonContainer, "Failed to load season information."));
+        .catch(handleError(standingsContainer, "Failed to load standings."));
 
-    // Fetch the stats leaders
-    fetch('https://raw.githubusercontent.com/kasljevic/NHL-schedule/main/data_leaders.json')
-        .then(response => response.json())
-        .then(leadersData => {
-            displayStatsLeaders(leadersData);
-        })
-        .catch(handleError(leadersContainer, "Failed to load stats leaders."));
+    // Add event listener for navigation links
+    navLinks.forEach(link => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+            navLinks.forEach(link => link.classList.remove("active"));
+            this.classList.add("active");
+            showSection(this.getAttribute("href"));
+        });
+    });
+
+    // Show the correct section based on navigation
+    function showSection(section) {
+        if (section === "#games") {
+            scheduleContainer.style.display = "block";
+            standingsContainer.style.display = "none";
+        } else if (section === "#standings") {
+            scheduleContainer.style.display = "none";
+            standingsContainer.style.display = "block";
+        }
+    }
+    showSection("#games"); // Default to showing games section
 });
 
 function displaySchedule(data) {
     const container = document.getElementById("schedule-container");
     container.innerHTML = '<h2>Upcoming Games</h2>';
-    
-    const datesHTML = `
-        <div class="date-info">
-            <p><strong>Next Start Date:</strong> ${formatDate(data.nextStartDate)}</p>
-            <p><strong>Previous Start Date:</strong> ${formatDate(data.previousStartDate)}</p>
-        </div>
-    `;
-    container.innerHTML += datesHTML;
 
     data.gameWeek.forEach(week => {
         const weekHTML = `
@@ -70,87 +77,56 @@ function displaySchedule(data) {
     });
 }
 
-function displayHistoricalSeasons(seasonData) {
-    const container = document.getElementById("season-container");
-    container.innerHTML = '<h2>Historical NHL Seasons</h2>';
-
-    // Group seasons by decade
-    const groupedSeasons = groupSeasonsByDecade(seasonData.data);
-
-    // Create a table for each decade
-    Object.entries(groupedSeasons).forEach(([decade, seasons]) => {
-        const decadeHTML = `
-            <h3>${decade}s</h3>
-            <div class="table-container">
-                <table class="seasons-table">
-                    <thead>
-                        <tr>
-                            <th>Season</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Regular Games</th>
-                            <th>Playoff Games</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${seasons.map(season => `
-                            <tr>
-                                <td>${season.formattedSeasonId}</td>
-                                <td>${formatDate(season.startDate)}</td>
-                                <td>${formatDate(season.endDate)}</td>
-                                <td>${season.totalRegularSeasonGames}</td>
-                                <td>${season.totalPlayoffGames}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-        `;
-        container.innerHTML += decadeHTML;
-    });
+function displayStandings(standingsData) {
+    const container = document.getElementById("standings-container");
+    container.innerHTML = `
+        <h2>Standings</h2>
+        <div class="standings-section">
+            <h3>Eastern Conference</h3>
+            ${renderStandingsTable(standingsData.eastern)}
+        </div>
+        <div class="standings-section">
+            <h3>Western Conference</h3>
+            ${renderStandingsTable(standingsData.western)}
+        </div>
+    `;
 }
 
-function groupSeasonsByDecade(seasons) {
-    return seasons.reduce((groups, season) => {
-        const decade = Math.floor(parseInt(season.formattedSeasonId.split('-')[0]) / 10) * 10;
-        if (!groups[decade]) {
-            groups[decade] = [];
-        }
-        groups[decade].push(season);
-        return groups;
-    }, {});
-}
-
-function displayStatsLeaders(leadersData) {
-    const container = document.getElementById("leaders-container");
-    container.innerHTML = '<h2>Stats Leaders</h2>';
-
-    const metrics = [
-        { key: 'goals', label: 'Goals' },
-        { key: 'assists', label: 'Assists' },
-        { key: 'points', label: 'Points' }
-    ];
-
-    metrics.forEach(metric => {
-        if (leadersData[metric.key]) {
-            container.innerHTML += `<h3>Top 5 ${metric.label}</h3>`;
-            const topPlayers = leadersData[metric.key].slice(0, 5);
-            topPlayers.forEach((player, index) => {
-                const leaderHTML = `
-                    <div class="leader-card">
-                        <div class="leader-rank">${index + 1}</div>
-                        <img src="${player.headshot}" alt="${player.firstName.default} ${player.lastName.default}" class="player-headshot">
-                        <div class="leader-info">
-                            <h4>${player.firstName.default} ${player.lastName.default}</h4>
-                            <p>${player.teamName.default} - ${player.position}</p>
-                        </div>
-                        <div class="leader-value">${player.value} ${metric.label.toLowerCase()}</div>
-                    </div>
-                `;
-                container.innerHTML += leaderHTML;
-            });
-        }
-    });
+function renderStandingsTable(conference) {
+    return `
+        <table class="standings-table">
+            <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>GP</th>
+                    <th>W</th>
+                    <th>L</th>
+                    <th>OTL</th>
+                    <th>Pts</th>
+                    <th>GF</th>
+                    <th>GA</th>
+                    <th>Diff</th>
+                    <th>Streak</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${conference.map(team => `
+                    <tr>
+                        <td>${team.teamName}</td>
+                        <td>${team.gamesPlayed}</td>
+                        <td>${team.wins}</td>
+                        <td>${team.losses}</td>
+                        <td>${team.otLosses}</td>
+                        <td>${team.points}</td>
+                        <td>${team.goalsFor}</td>
+                        <td>${team.goalsAgainst}</td>
+                        <td>${team.difference}</td>
+                        <td>${team.streak}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
 }
 
 function formatDate(dateString) {
