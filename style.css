@@ -76,7 +76,7 @@ main {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 80px) {
     .seasons-table {
         font-size: 0.8em;
     }
@@ -183,7 +183,7 @@ footer {
     color: var(--accent-color);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 80px) {
     main {
         padding: 1rem;
     }
